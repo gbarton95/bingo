@@ -8,6 +8,13 @@
     "qunit": "^2.6.1"
   },
   "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js",
+    "build": "echo 'No build step required'",
+    "lint": "jshint images.js simulation.js",
     "test": "sh ./scripts/run-tests.sh"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
   }
 }

@@ -1,0 +1,8 @@
+{
+  "name": "Bingo Card Generator",
+  "description": "Generate custom printable and playable bingo cards with randomized spaces and interactive daubing.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
