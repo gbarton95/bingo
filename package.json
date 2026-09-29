@@ -1,20 +1,14 @@
 {
-  "name": "BingoCardGenerator",
-  "description": "Simple Travis-CI check for JSHint (Code Linting)",
+  "name": "bingo-card-generator",
+  "description": "Generador local de cartones de bingo en PDF",
   "author": "Chris Herdt",
   "version": "0.0.2",
-  "devDependencies": {
-    "jshint": "^2.6.0",
-    "qunit": "^2.6.1"
-  },
   "scripts": {
     "dev": "node server.js",
-    "start": "node server.js",
-    "build": "echo 'No build step required'",
-    "lint": "jshint images.js simulation.js",
-    "test": "sh ./scripts/run-tests.sh"
+    "start": "node server.js"
   },
   "dependencies": {
     "express": "^5.2.1"
-  }
+  },
+  "private": true
 }

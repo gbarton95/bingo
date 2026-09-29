@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -14,7 +14,7 @@
       content="Generate custom printable and playable bingo cards with randomized spaces and interactive daubing."
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Poppins:wght@600;700&family=Montserrat:wght@600;700&family=Nunito:wght@600;700&family=Fredoka:wght@500;600&family=Playfair+Display:wght@700&family=Roboto+Slab:wght@600;700&family=Caveat:wght@600;700&family=Patrick+Hand&family=Permanent+Marker&family=Lobster&family=Pacifico&family=Bangers&family=Bebas+Neue&family=Righteous&display=swap"
       rel="stylesheet"
     />
     <style type="text/css">
@@ -58,7 +58,9 @@
         display: block;
       }
       input[type="text"],
+      input[type="number"],
       textarea,
+      select,
       input[type="color"] {
         width: 100%;
         padding: 10px;
@@ -94,6 +96,30 @@
         transform: translateY(-2px);
         box-shadow: 0 4px 12px rgba(118, 75, 162, 0.3);
       }
+      .icon-bank {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin: -5px 0 15px 0;
+      }
+      .icon-bank button {
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        font-size: 22px;
+        background: #f4f6f8;
+        border: 1px solid #ccc;
+      }
+      .icon-bank button:hover {
+        background: #e8e2f5;
+      }
+      .font-row {
+        display: flex;
+        gap: 12px;
+      }
+      .font-row label {
+        flex: 1;
+      }
       div.break {
         clear: both;
         page-break-after: always;
@@ -109,8 +135,10 @@
         background-color: white;
         border-collapse: collapse;
         margin-bottom: 2em;
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         border: 4px solid #333;
+        width: 100%;
+        max-width: 680px;
+        table-layout: fixed;
       }
       td,
       th {
@@ -119,18 +147,20 @@
       }
       th {
         color: white;
-        height: 60px;
-        font-size: 28px;
+        height: 80px;
+        font-size: 34px;
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 2px;
       }
       td {
-        width: 90px;
-        height: 90px;
-        font-size: 14px;
-        padding: 5px;
+        height: 110px;
+        font-size: 17px;
+        padding: 6px;
         font-weight: 600;
+        overflow-wrap: break-word;
+        cursor: pointer;
+        user-select: none;
       }
       #footer {
         margin-top: 40px;
@@ -142,37 +172,11 @@
       }
 
       .daub {
-        background-repeat: no-repeat;
-      }
-      .daubPos1 {
-        background-position: 8px 8px;
-      }
-      .daubPos2 {
-        background-position: 3px 8px;
-      }
-      .daubPos3 {
-        background-position: 8px 3px;
-      }
-      .daubPos4 {
-        background-position: 12px 8px;
-      }
-      .daubPos5 {
-        background-position: 8px 12px;
-      }
-      .daubImg1 {
-        background-image: url(images/daub1.png);
-      }
-      .daubImg2 {
-        background-image: url(images/daub2.png);
-      }
-      .daubImg3 {
-        background-image: url(images/daub3.png);
-      }
-      .daubImg4 {
-        background-image: url(images/daub4.png);
-      }
-      .daubImg5 {
-        background-image: url(images/daub5.png);
+        background: radial-gradient(
+          circle,
+          rgba(231, 76, 60, 0.45) 0 45%,
+          transparent 47%
+        );
       }
     </style>
     <style type="text/css" media="print">
@@ -198,19 +202,7 @@
         // If the target bingo card square has a daub, remove it. Otherwise, add a daub
         toggle: function (e) {
           "use strict";
-          var i;
-          var target = e.currentTarget;
-          if (target.classList.contains("daub")) {
-            for (i = 1; i <= 5; i = i + 1) {
-              target.classList.remove("daubImg" + i);
-              target.classList.remove("daubPos" + i);
-            }
-            target.classList.remove("daub");
-          } else {
-            target.classList.add("daub");
-            target.classList.add("daubPos" + Math.ceil(Math.random() * 5));
-            target.classList.add("daubImg" + Math.ceil(Math.random() * 5));
-          }
+          e.currentTarget.classList.toggle("daub");
         },
 
         // Iterate over any bingo cards on the page and attach mouse/touch events to each square
@@ -221,14 +213,12 @@
             .getElementById("results")
             .getElementsByTagName("td");
           for (bingoSquare of bingoSquares) {
-            bingoSquare.addEventListener("mousedown", this.toggle);
+            bingoSquare.addEventListener("click", this.toggle);
           }
         },
       };
 
       var bingoGenerator = {
-        pageBreaks: "on", // automatically inserts a page break after every 2 cards
-
         // Given an array, return the array minus any empty elements
         removeEmptyElements: function (arr) {
           "use strict";
@@ -242,106 +232,39 @@
           return newArray;
         },
 
-        formatFreespace: function (str, subheading) {
+        bingoCard: function (title, width, height, list) {
           "use strict";
-          return (
-            "<strong>" +
-            str +
-            '<div class="freespace">' +
-            subheading +
-            "</div></strong>"
-          );
-        },
-
-        bingoCard: function (
-          title,
-          width,
-          height,
-          freespace,
-          freespaceValue,
-          freespaceSubheadingValue,
-          freespaceRandom,
-          list,
-        ) {
-          "use strict";
-          var possibleSpaces, enoughSpaces, spaces, centerSquare, i, j, output;
+          var possibleSpaces, spaces, i, j, output;
           list = bingoGenerator.escapeHTML(list);
           list = bingoGenerator.newlineToBR(list);
           possibleSpaces = bingoGenerator.removeEmptyElements(list.split(","));
 
-          // Two options for including random Free Space:
-          // Option 1: We don't have enough. Include in random placement.
-          // Option 2:- We have enough. Overwrite other option.
-          enoughSpaces = true;
-          if (possibleSpaces.length < width * height) {
-            enoughSpaces = false;
-          }
-
-          // Option 1
-          if (
-            freespace === "true" &&
-            freespaceRandom === "true" &&
-            !enoughSpaces
-          ) {
-            possibleSpaces.push(
-              bingoGenerator.formatFreespace(
-                freespaceValue,
-                freespaceSubheadingValue,
-              ),
-            );
-          }
-
           // Create a random selection of the possible values
           spaces = [];
-
-          // This works for squares with odd dimensions,, e.g. 3x3 or 5x5, but not for even squares or rectangles
-          // var centerSquare = Math.floor(width*height/2);
-          // We'll say center is the center row of the center column
-          centerSquare = Math.floor(height / 2) * width + Math.floor(width / 2);
-
-          for (i = 0; i <= width * height; i += 1) {
-            if (
-              i === centerSquare &&
-              freespace === "true" &&
-              freespaceRandom === "false"
-            ) {
-              spaces.push(
-                bingoGenerator.formatFreespace(
-                  freespaceValue,
-                  freespaceSubheadingValue,
-                ),
-              );
-            } else {
-              spaces.push(
-                possibleSpaces.splice(
-                  Math.floor(Math.random() * possibleSpaces.length),
-                  1,
-                )[0],
-              );
-            }
-          }
-
-          // Option 2
-          if (
-            freespace === "true" &&
-            freespaceRandom === "true" &&
-            enoughSpaces
-          ) {
-            spaces[Math.floor(Math.random() * spaces.length)] =
-              bingoGenerator.formatFreespace(
-                freespaceValue,
-                freespaceSubheadingValue,
-              );
+          for (i = 0; i < width * height; i += 1) {
+            spaces.push(
+              possibleSpaces.splice(
+                Math.floor(Math.random() * possibleSpaces.length),
+                1,
+              )[0],
+            );
           }
 
           // Output
           var color = $("#headerColor").val() || "#000000";
+          // Select values only, so they can't inject CSS
+          var titleFont = $("#titleFont").val() || "Outfit";
+          var bodyFont = $("#bodyFont").val() || "Outfit";
           output =
-            '<div class="card-container"><table><thead><tr><th colspan="' +
+            "<div class=\"card-container\"><table style=\"font-family: '" +
+            bodyFont +
+            "', sans-serif;\"><thead><tr><th colspan=\"" +
             width +
             '" style="background-color: ' +
             color +
-            ';">' +
+            "; font-family: '" +
+            titleFont +
+            "', sans-serif;\">" +
             title +
             "</th></tr></thead>";
           output += "<tbody>";
@@ -359,27 +282,25 @@
         // Generate Bingo Cards
         generate: function () {
           "use strict";
-          var colsFilled, rowsFilled, spaces, i;
+          var spaces, i;
 
           // Check to make sure enough options are provided to fill the bingo card spaces
           spaces = bingoGenerator.removeEmptyElements(
             $("#words").val().split(","),
           ).length;
-          if ($("#freespace").val()) {
-            spaces += 1;
-          }
           if (spaces < $("#width").val() * $("#height").val()) {
             alert(
-              "Warning: you do not have enough possible board options for the size of the board you selected!",
+              "Faltan canciones: hay " +
+                spaces +
+                " y el cartón necesita " +
+                $("#width").val() * $("#height").val() +
+                ".",
             );
+            return false;
           }
 
           // Clear any previous results
           $("#results").html("");
-
-          // Try to make nice printable pages -- we can fit about 10 pieces across and 6 down
-          colsFilled = 0;
-          rowsFilled = 1;
 
           // Loop over number of cards requested
           for (i = 0; i < document.getElementById("number").value; i += 1) {
@@ -388,10 +309,6 @@
               $("#title").val(),
               $("#width").val(),
               $("#height").val(),
-              $("#freespace").val(),
-              $("#freespaceValue").val(),
-              $("#freespaceSubheadingValue").val(),
-              $("#freespaceRandom").val(),
               $("#words").val(),
             );
             if (i < document.getElementById("number").value - 1) {
@@ -401,6 +318,7 @@
 
           // Jump to results
           location.href = "#results";
+          return true;
         },
 
         // Replace + with spaces, <> with entities, and URL-decode &/,:;+=?%$@
@@ -415,6 +333,7 @@
             .replace(/%2B/g, "+")
             .replace(/%2C/g, ",")
             .replace(/%2F/g, "/")
+            .replace(/%23/g, "#")
             .replace(/%3A/g, ":")
             .replace(/%3B/g, ";")
             .replace(/%3C/g, "&lt;")
@@ -459,7 +378,6 @@
           "use strict";
           var qs = bingoGenerator.parseQS();
           if (!(qs.title === undefined) || !(qs.words === undefined)) {
-            $("#intro").hide();
             if (!(qs.title === undefined)) {
               $("#title").val(bingoGenerator.urlUnencode(qs.title));
             }
@@ -469,30 +387,11 @@
             if (!(qs.headerColor === undefined)) {
               $("#headerColor").val(bingoGenerator.urlUnencode(qs.headerColor));
             }
-            if (!(qs.freespace === undefined || qs.freespace === "false")) {
-              var fSpace = document.getElementById("freespace");
-              if (fSpace) fSpace.selectedIndex = 0;
-              $("#freespaceValue").val(
-                bingoGenerator.urlUnencode(qs.freespaceValue || ""),
-              );
-              if (!(qs.freespaceSubheadingValue === undefined)) {
-                $("#freespaceSubheadingValue").val(
-                  bingoGenerator.urlUnencode(qs.freespaceSubheadingValue),
-                );
-              } else {
-                $("#freespaceSubheadingValue").val("Free Space");
-              }
-              if (
-                !(qs.freespaceRandom === undefined) &&
-                qs.freespaceRandom === "true"
-              ) {
-                var fSpaceRandom = document.getElementById("freespaceRandom");
-                if (fSpaceRandom) fSpaceRandom.selectedIndex = 0;
-              }
-            } else {
-              var fSpace = document.getElementById("freespace");
-              if (fSpace) fSpace.selectedIndex = 1;
-              $("#freespaceValue").val("");
+            if (!(qs.titleFont === undefined)) {
+              $("#titleFont").val(bingoGenerator.urlUnencode(qs.titleFont));
+            }
+            if (!(qs.bodyFont === undefined)) {
+              $("#bodyFont").val(bingoGenerator.urlUnencode(qs.bodyFont));
             }
             if (!(qs.width === undefined)) {
               $("#width").val(qs.width);
@@ -504,50 +403,112 @@
               $("#number").val(qs.number);
             }
           }
-          if (!(qs.pageBreaks === undefined)) {
-            bingoGenerator.pageBreaks = qs.pageBreaks;
-          }
-          if (qs.onlyCard === "true") {
-            $("#number").val(1);
-            $("h1").hide();
-            $("form").hide();
-            $("#footer").hide();
-            $("body").css("margin", 0);
-            $("table").css("margin", 0);
-          }
-          if (!(qs.title === undefined) && !(qs.words === undefined)) {
-            bingoGenerator.generate();
+          if (
+            !(qs.title === undefined) &&
+            !(qs.words === undefined) &&
+            bingoGenerator.generate()
+          ) {
             dauber.init();
             $("#downloadPdfBtn")
               .show()
               .click(function (e) {
                 e.preventDefault();
-                var element = document.getElementById("results");
-                var opt = {
-                  margin: 0.5,
-                  filename: "bingo.pdf",
-                  image: { type: "jpeg", quality: 0.98 },
-                  html2canvas: { scale: 2 },
-                  jsPDF: {
-                    unit: "in",
-                    format: "letter",
-                    orientation: "portrait",
-                  },
-                  pagebreak: { mode: ["css", "legacy"] },
-                };
-                html2pdf().set(opt).from(element).save();
+                bingoGenerator.downloadPdf(this);
               });
           }
         },
+
+        // One card per A4 page. Each card is rendered on its own canvas, so large
+        // batches don't exceed the browser's max canvas size.
+        downloadPdf: function (button) {
+          "use strict";
+          var cards = document.querySelectorAll("#results .card-container");
+          var opt = {
+            margin: 10,
+            filename: "bingo.pdf",
+            image: { type: "jpeg", quality: 0.98 },
+            html2canvas: { scale: 2, scrollX: 0, scrollY: 0 },
+            jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+          };
+          button.disabled = true;
+          button.textContent = "Generando PDF...";
+          // Wait for the web fonts, or html2canvas renders the fallback font
+          document.fonts.ready.then(function () {
+            var worker = html2pdf().set(opt).from(cards[0]).toPdf();
+            var i;
+            for (i = 1; i < cards.length; i += 1) {
+              worker = worker
+                .get("pdf")
+                .then(function (pdf) {
+                  pdf.addPage();
+                })
+                .from(cards[i])
+                .toContainer()
+                .toCanvas()
+                .toPdf();
+            }
+            return worker.save();
+          }).then(function () {
+            button.disabled = false;
+            button.textContent = "Descargar PDF";
+          });
+        },
+
+        fonts: [
+          "Outfit",
+          "Poppins",
+          "Montserrat",
+          "Nunito",
+          "Fredoka",
+          "Playfair Display",
+          "Roboto Slab",
+          "Caveat",
+          "Patrick Hand",
+          "Permanent Marker",
+          "Lobster",
+          "Pacifico",
+          "Bangers",
+          "Bebas Neue",
+          "Righteous",
+        ],
+
+        icons: "🎵 🎶 🎤 🎧 🎸 🎹 🥁 🎷 🎺 🎻 💿 📻 ⭐ ✨ 🎉 🎈 🏆 ❤️ 🎄 🎃".split(" "),
+
+        initControls: function () {
+          "use strict";
+          bingoGenerator.fonts.forEach(function (font) {
+            $("#titleFont, #bodyFont").append(
+              $("<option>").val(font).text(font).css("font-family", font),
+            );
+          });
+          bingoGenerator.icons.forEach(function (icon) {
+            $("#iconBank").append(
+              $('<button type="button">').text(icon).attr("title", "Añadir " + icon),
+            );
+          });
+          // Insert the icon at the cursor position of the title field
+          $("#iconBank").on("click", "button", function () {
+            var input = document.getElementById("title");
+            var start = input.selectionStart;
+            var end = input.selectionEnd;
+            var icon = $(this).text();
+            input.value =
+              input.value.slice(0, start) + icon + input.value.slice(end);
+            input.focus();
+            input.setSelectionRange(start + icon.length, start + icon.length);
+          });
+        },
       };
 
-      $(document).ready(bingoGenerator.checkQS);
+      $(document).ready(function () {
+        bingoGenerator.initControls();
+        bingoGenerator.checkQS();
+      });
     </script>
   </head>
   <body>
     <h1>Crea tu propio Bingo</h1>
     <form action="#results" method="get">
-      <!-- onsubmit="generate();return false;" -->
       <fieldset>
         <legend>Detalles del bingo</legend>
         <label
@@ -557,6 +518,15 @@
             id="title"
             value="Título bingo"
         /></label>
+        <div class="icon-bank" id="iconBank"></div>
+        <div class="font-row">
+          <label
+            >Fuente del título:<select name="titleFont" id="titleFont"></select
+          ></label>
+          <label
+            >Fuente de las casillas:<select name="bodyFont" id="bodyFont"></select
+          ></label>
+        </div>
         <label
           >Color de cabecera:<input
             type="color"
@@ -568,15 +538,15 @@
         ><textarea cols="60" rows="8" name="words" id="words">...</textarea>
         <label
           >Número de cuadrados a lo ancho:
-          <input type="text" name="width" id="width" value="5"
+          <input type="number" min="1" max="10" name="width" id="width" value="5"
         /></label>
         <label
           >Número de cuadrados a lo alto:
-          <input type="text" name="height" id="height" value="5"
+          <input type="number" min="1" max="10" name="height" id="height" value="5"
         /></label>
         <label
           >Número de cartones a imprimir:
-          <input type="text" name="number" id="number" value="10"
+          <input type="number" min="1" max="200" name="number" id="number" value="10"
         /></label>
       </fieldset>
       <label><input type="submit" value="Generar bingo" /></label>

@@ -13,11 +13,6 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Express v5 fallback route
-app.get('*all', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
-});
-
 app.listen(PORT, HOST, () => {
   console.log(`Server running at http://${HOST}:${PORT}/`);
 });
