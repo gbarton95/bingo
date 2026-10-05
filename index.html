@@ -14,32 +14,64 @@
       content="Generate custom printable and playable bingo cards with randomized spaces and interactive daubing."
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Poppins:wght@600;700&family=Montserrat:wght@600;700&family=Nunito:wght@600;700&family=Fredoka:wght@500;600&family=Playfair+Display:wght@700&family=Roboto+Slab:wght@600;700&family=Caveat:wght@600;700&family=Patrick+Hand&family=Permanent+Marker&family=Lobster&family=Pacifico&family=Bangers&family=Bebas+Neue&family=Righteous&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Poppins:wght@600;700&family=Montserrat:wght@600;700&family=Nunito:wght@600;700&family=Fredoka:wght@500;600&family=Playfair+Display:wght@700&family=Roboto+Slab:wght@600;700&family=Caveat:wght@600;700&family=Patrick+Hand&family=Permanent+Marker&family=Lobster&family=Pacifico&family=Bangers&family=Bebas+Neue&family=Righteous&display=swap"
       rel="stylesheet"
     />
     <style type="text/css">
+      * {
+        box-sizing: border-box;
+      }
       body {
         font-family: "Outfit", sans-serif;
-        background: #f4f6f8;
-        color: #333;
+        background: #f1f5f9;
+        color: #1e293b;
         margin: 0;
-        padding: 20px;
+        padding: 24px 16px;
         display: flex;
         flex-direction: column;
         align-items: center;
+        min-height: 100vh;
+      }
+      .app-header {
+        text-align: center;
+        max-width: 640px;
+        margin-bottom: 24px;
       }
       h1 {
-        color: #2c3e50;
-        margin-bottom: 20px;
+        color: #0f172a;
+        margin: 0 0 8px 0;
+        font-size: 2rem;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+      }
+      .app-header p {
+        color: #64748b;
+        margin: 0;
+        font-size: 1rem;
+        line-height: 1.5;
+      }
+      .badge-spanish {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #fee2e2;
+        color: #b91c1c;
+        font-size: 0.82rem;
+        font-weight: 600;
+        padding: 4px 12px;
+        border-radius: 9999px;
+        margin-bottom: 10px;
+        border: 1px solid #fecaca;
       }
       form {
         background: white;
-        padding: 30px;
-        border-radius: 12px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-        max-width: 600px;
+        padding: 28px;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
+        max-width: 640px;
         width: 100%;
         margin-bottom: 30px;
+        border: 1px solid #e2e8f0;
       }
       fieldset {
         border: none;
@@ -48,14 +80,19 @@
       }
       legend {
         font-weight: 700;
-        font-size: 1.2rem;
-        margin-bottom: 15px;
-        color: #2c3e50;
+        font-size: 1.15rem;
+        margin-bottom: 16px;
+        color: #0f172a;
+        display: flex;
+        align-items: center;
+        gap: 8px;
       }
       label {
         font-weight: 600;
-        margin-bottom: 5px;
+        margin-bottom: 6px;
         display: block;
+        font-size: 0.92rem;
+        color: #334155;
       }
       input[type="text"],
       input[type="number"],
@@ -63,127 +100,487 @@
       select,
       input[type="color"] {
         width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
+        padding: 10px 12px;
+        border: 1.5px solid #cbd5e1;
         border-radius: 8px;
-        margin-bottom: 15px;
+        margin-bottom: 16px;
         font-family: "Outfit", sans-serif;
-        box-sizing: border-box;
+        font-size: 0.95rem;
+        background: #fff;
+        color: #1e293b;
+        transition: border-color 0.15s, box-shadow 0.15s;
+      }
+      input[type="text"]:focus,
+      input[type="number"]:focus,
+      textarea:focus,
+      select:focus {
+        outline: none;
+        border-color: #6366f1;
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+      }
+      textarea {
+        resize: vertical;
+        line-height: 1.5;
+        font-size: 0.9rem;
       }
       input[type="color"] {
-        padding: 0;
-        height: 40px;
+        padding: 4px;
+        height: 44px;
         cursor: pointer;
       }
-      input[type="submit"],
-      button {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border: none;
-        padding: 12px 20px;
-        border-radius: 8px;
-        font-weight: 600;
+      .spanish-banner {
+        background: #f8fafc;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 14px 16px;
+        margin-bottom: 18px;
+      }
+      .spanish-checkbox-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
         cursor: pointer;
-        font-size: 1rem;
-        transition:
-          transform 0.2s,
-          box-shadow 0.2s;
-        width: 100%;
+        user-select: none;
+      }
+      .spanish-checkbox-row input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        accent-color: #4f46e5;
+        cursor: pointer;
+        margin-top: 2px;
+      }
+      .spanish-text-title {
+        font-weight: 700;
+        color: #1e293b;
+        font-size: 0.98rem;
         display: block;
       }
-      input[type="submit"]:hover,
-      button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(118, 75, 162, 0.3);
+      .spanish-text-desc {
+        color: #64748b;
+        font-size: 0.85rem;
+        margin-top: 2px;
+        display: block;
+        line-height: 1.4;
       }
+      .bg-section {
+        background: #f8fafc;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 14px 16px;
+        margin-bottom: 18px;
+      }
+      .bg-section-title {
+        font-weight: 700;
+        color: #1e293b;
+        font-size: 0.95rem;
+        margin-bottom: 10px;
+        display: block;
+      }
+      .bg-controls-row {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-bottom: 10px;
+      }
+      .bg-upload-btn {
+        background: #e0e7ff;
+        color: #3730a3;
+        border: 1px solid #c7d2fe;
+        padding: 7px 12px;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        transition: background 0.15s;
+        margin-bottom: 0;
+      }
+      .bg-upload-btn:hover {
+        background: #c7d2fe;
+      }
+      .preset-small-btn {
+        background: #f1f5f9;
+        color: #334155;
+        border: 1px solid #cbd5e1;
+        padding: 7px 12px;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.15s;
+        width: auto;
+        display: inline-block;
+      }
+      .preset-small-btn:hover {
+        background: #e2e8f0;
+        transform: none;
+        box-shadow: none;
+      }
+      .btn-remove-bg {
+        color: #b91c1c;
+        border-color: #fecaca;
+        background: #fef2f2;
+      }
+      .btn-remove-bg:hover {
+        background: #fee2e2;
+      }
+      .bg-opacity-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-top: 8px;
+      }
+      .bg-opacity-row label {
+        font-size: 0.85rem;
+        color: #475569;
+        font-weight: 600;
+        margin-bottom: 0;
+        white-space: nowrap;
+      }
+      .bg-opacity-row input[type="range"] {
+        flex: 1;
+        height: 6px;
+        accent-color: #4f46e5;
+        cursor: pointer;
+        margin-bottom: 0;
+      }
+      .bg-preview-badge {
+        font-size: 0.8rem;
+        color: #065f46;
+        background: #ecfdf5;
+        border: 1px solid #a7f3d0;
+        padding: 5px 10px;
+        border-radius: 6px;
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
       .icon-bank {
         display: flex;
         flex-wrap: wrap;
         gap: 6px;
-        margin: -5px 0 15px 0;
+        margin: -8px 0 16px 0;
       }
       .icon-bank button {
-        width: 40px;
-        height: 40px;
+        width: 38px;
+        height: 38px;
         padding: 0;
-        font-size: 22px;
-        background: #f4f6f8;
-        border: 1px solid #ccc;
+        font-size: 20px;
+        background: #f8fafc;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.15s, transform 0.1s;
       }
       .icon-bank button:hover {
-        background: #e8e2f5;
+        background: #e0e7ff;
+        transform: scale(1.08);
       }
-      .font-row {
+      .font-row,
+      .dimension-row {
         display: flex;
         gap: 12px;
       }
-      .font-row label {
+      .font-row label,
+      .dimension-row label {
         flex: 1;
+      }
+      .textarea-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 6px;
+      }
+      .sample-link {
+        font-size: 0.82rem;
+        color: #4f46e5;
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        font-weight: 600;
+        text-decoration: underline;
+        width: auto;
+        display: inline;
+      }
+      .sample-link:hover {
+        color: #3730a3;
+        transform: none;
+        box-shadow: none;
+      }
+      .word-count-badge {
+        font-size: 0.85rem;
+        padding: 8px 12px;
+        border-radius: 8px;
+        margin: -8px 0 16px 0;
+        background: #f1f5f9;
+        border: 1px solid #e2e8f0;
+        color: #475569;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .word-count-badge.valid {
+        background: #ecfdf5;
+        border-color: #a7f3d0;
+        color: #065f46;
+      }
+      .word-count-badge.invalid {
+        background: #fff7ed;
+        border-color: #fed7aa;
+        color: #9a3412;
+      }
+      .btn-primary {
+        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        color: white;
+        border: none;
+        padding: 14px 20px;
+        border-radius: 10px;
+        font-weight: 700;
+        cursor: pointer;
+        font-size: 1.05rem;
+        transition: transform 0.2s, box-shadow 0.2s;
+        width: 100%;
+        display: block;
+        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+      }
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(79, 70, 229, 0.35);
+      }
+      .btn-group {
+        display: flex;
+        gap: 10px;
+        margin-top: 14px;
+        flex-wrap: wrap;
+      }
+      .btn-secondary {
+        flex: 1;
+        min-width: 140px;
+        background: #334155;
+        color: white;
+        border: none;
+        padding: 12px 16px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        font-size: 0.92rem;
+        transition: background 0.15s, transform 0.15s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+      }
+      .btn-secondary:hover {
+        background: #1e293b;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+      .btn-secondary:disabled {
+        background: #94a3b8;
+        cursor: not-allowed;
+        transform: none;
+      }
+      .btn-outline {
+        background: white;
+        color: #475569;
+        border: 1.5px solid #cbd5e1;
+      }
+      .btn-outline:hover {
+        background: #f8fafc;
+        color: #0f172a;
+        box-shadow: none;
       }
       div.break {
         clear: both;
         page-break-after: always;
         break-after: page;
       }
+      #results {
+        width: 100%;
+        max-width: 720px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
       .card-container {
         display: flex;
         justify-content: center;
         width: 100%;
         page-break-inside: avoid;
+        margin-bottom: 28px;
       }
-      table {
-        background-color: white;
-        border-collapse: collapse;
-        margin-bottom: 2em;
-        border: 4px solid #333;
+      .card-wrapper {
+        position: relative;
         width: 100%;
         max-width: 680px;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+      }
+      .card-wrapper table {
+        background-color: white;
+        border-collapse: collapse;
+        border: 3px solid #1e293b;
+        width: 100%;
         table-layout: fixed;
+        border-radius: 10px;
+        margin-bottom: 0;
+        box-shadow: none;
+        position: relative;
+      }
+      .card-watermark {
+        position: absolute;
+        top: 66px;
+        left: 0;
+        width: 100%;
+        height: calc(100% - 66px);
+        object-fit: cover;
+        object-position: center;
+        pointer-events: none;
+        z-index: 3;
+        mix-blend-mode: multiply;
+        user-select: none;
       }
       td,
       th {
-        border: 2px solid #333;
+        border: 2px solid #334155;
         text-align: center;
       }
       th {
         color: white;
-        height: 80px;
-        font-size: 34px;
+        padding: 16px 12px;
+        font-size: 26px;
         font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 2px;
+        letter-spacing: 1.5px;
+        position: relative;
+        z-index: 5;
+      }
+      .th-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 0 4px;
+      }
+      .th-title-text {
+        flex: 1;
+        text-align: left;
+      }
+      .th-card-badge {
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        padding: 4px 10px;
+        border-radius: 9999px;
+        background: rgba(255, 255, 255, 0.22);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        white-space: nowrap;
       }
       td {
-        height: 110px;
-        font-size: 17px;
-        padding: 6px;
+        height: 105px;
+        font-size: 16px;
+        padding: 8px 6px;
         font-weight: 600;
         overflow-wrap: break-word;
-        cursor: pointer;
         user-select: none;
+        vertical-align: middle;
+        position: relative;
+        transition: background-color 0.15s;
       }
-      #footer {
-        margin-top: 40px;
-        padding-top: 20px;
-        border-top: 1px solid #ccc;
-        text-align: center;
-        font-size: 0.9em;
-        color: #7f8c8d;
+      td.bingo-cell {
+        cursor: pointer;
+        background: #ffffff;
+      }
+      td.bingo-cell:hover {
+        background-color: #f8fafc;
+      }
+      td.bingo-cell:focus {
+        outline: 2px solid #6366f1;
+        outline-offset: -2px;
       }
 
+      /* Spanish Bingo blank square styling */
+      td.blank-square {
+        cursor: not-allowed;
+        user-select: none;
+        padding: 0;
+      }
+
+      /* Red ink daub marker */
       .daub {
         background: radial-gradient(
           circle,
-          rgba(231, 76, 60, 0.45) 0 45%,
-          transparent 47%
-        );
+          rgba(239, 68, 68, 0.5) 0 48%,
+          transparent 51%
+        ) !important;
       }
-    </style>
-    <style type="text/css" media="print">
-      h1,
-      form,
+
       #footer {
-        display: none;
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 1px solid #cbd5e1;
+        text-align: center;
+        font-size: 0.9em;
+        color: #64748b;
+      }
+      #footer a {
+        color: #4f46e5;
+        text-decoration: none;
+      }
+      #footer a:hover {
+        text-decoration: underline;
+      }
+
+      @media print {
+        body {
+          background: white;
+          padding: 0;
+          color: black;
+        }
+        .app-header,
+        form,
+        #footer {
+          display: none !important;
+        }
+        .card-container {
+          margin-bottom: 0;
+          padding: 10mm 0;
+        }
+        .card-wrapper {
+          box-shadow: none;
+        }
+        table {
+          box-shadow: none;
+          border-color: #000;
+          max-width: 100%;
+        }
+        th {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        td.blank-square {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        .card-watermark {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        .daub {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
       }
     </style>
 
@@ -199,102 +596,299 @@
       /* global $ */
 
       var dauber = {
-        // If the target bingo card square has a daub, remove it. Otherwise, add a daub
+        // Toggle daub marker on playable bingo cells only
         toggle: function (e) {
           "use strict";
+          if (e.currentTarget.classList.contains("blank-square")) {
+            return;
+          }
           e.currentTarget.classList.toggle("daub");
         },
 
-        // Iterate over any bingo cards on the page and attach mouse/touch events to each square
+        clearAll: function () {
+          "use strict";
+          $("#results td.daub").removeClass("daub");
+        },
+
         init: function () {
           "use strict";
-          var bingoSquare;
           var bingoSquares = document
             .getElementById("results")
-            .getElementsByTagName("td");
-          for (bingoSquare of bingoSquares) {
-            bingoSquare.addEventListener("click", this.toggle);
+            .getElementsByClassName("bingo-cell");
+          for (var i = 0; i < bingoSquares.length; i += 1) {
+            bingoSquares[i].removeEventListener("click", dauber.toggle);
+            bingoSquares[i].addEventListener("click", dauber.toggle);
+            bingoSquares[i].addEventListener("keydown", function (e) {
+              if (e.key === " " || e.key === "Enter") {
+                e.preventDefault();
+                e.currentTarget.classList.toggle("daub");
+              }
+            });
           }
         },
       };
 
       var bingoGenerator = {
-        // Given an array, return the array minus any empty elements
-        removeEmptyElements: function (arr) {
+        bgImageData: "/spiderweb.svg",
+        bgImageName: "Telaraña (Halloween)",
+
+        sampleSongs: [
+          "Despacito - Luis Fonsi",
+          "Bailando - Enrique Iglesias",
+          "La Bicicleta - Carlos Vives & Shakira",
+          "Danza Kuduro - Don Omar",
+          "Vivir Mi Vida - Marc Anthony",
+          "Gasolina - Daddy Yankee",
+          "Macarena - Los del Río",
+          "Aserejé - Las Ketchup",
+          "Corazón Partío - Alejandro Sanz",
+          "La Bamba - Los Lobos",
+          "Rayando el Sol - Maná",
+          "La Camisa Negra - Juanes",
+          "Mi Gente - J Balvin",
+          "Hawái - Maluma",
+          "Tití Me Preguntó - Bad Bunny",
+          "Tacones Rojos - Sebastián Yatra",
+          "Todo de Ti - Rauw Alejandro",
+          "Devuélveme a mi chica - Hombres G",
+          "Soldadito Marinero - Fito & Fitipaldis",
+          "La Chica de Ayer - Nacha Pop",
+          "A Quién Le Importa - Alaska y Dinarama",
+          "Cien Gaviotas - Duncan Dhu",
+          "Princesas - Pereza",
+          "Carolina - M-Clan",
+          "Ave María - David Bisbal",
+          "El Mismo Sol - Álvaro Soler",
+          "Calma - Pedro Capó",
+          "Con Altura - Rosalía",
+          "Ni Una Sola Palabra - Paulina Rubio",
+          "Amante Bandido - Miguel Bosé",
+          "Salta - Tequila",
+          "Clavado en un bar - Maná",
+          "Flaca - Andrés Calamaro",
+          "Guantanamera - Celia Cruz",
+          "Oye Cómo Va - Santana",
+          "La Gozadera - Gente de Zona",
+        ],
+
+        // Robust parsing of songs/words supporting ;; or newlines or commas
+        parseWordsList: function (text) {
           "use strict";
-          var newArray = [],
-            i = 0;
-          for (i = 0; i < arr.length; i += 1) {
-            if (arr[i]) {
-              newArray.push(arr[i]);
+          if (!text) return [];
+          var raw = [];
+          if (text.indexOf(";;") !== -1) {
+            raw = text.split(";;");
+          } else if (text.indexOf("\n") !== -1) {
+            raw = text.split("\n");
+          } else if (text.indexOf(",") !== -1) {
+            raw = text.split(",");
+          } else {
+            raw = [text];
+          }
+          var result = [];
+          for (var i = 0; i < raw.length; i += 1) {
+            var item = raw[i].trim();
+            if (item.length > 0 && item !== "...") {
+              result.push(item);
             }
           }
-          return newArray;
+          return result;
         },
 
-        bingoCard: function (title, width, height, list) {
+        escapeHTML: function (str) {
           "use strict";
-          var possibleSpaces, spaces, i, j, output;
-          list = bingoGenerator.escapeHTML(list);
-          list = bingoGenerator.newlineToBR(list);
-          possibleSpaces = bingoGenerator.removeEmptyElements(list.split(","));
+          if (!str) return "";
+          return String(str)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+        },
 
-          // Create a random selection of the possible values
-          spaces = [];
-          for (i = 0; i < width * height; i += 1) {
-            spaces.push(
-              possibleSpaces.splice(
-                Math.floor(Math.random() * possibleSpaces.length),
-                1,
-              )[0],
+        newlineToBR: function (str) {
+          "use strict";
+          if (!str) return "";
+          return str.replace(/\n/g, "<br>");
+        },
+
+        // Compute a lighter solid shade of a given hex color
+        lightenColor: function (hex, factor) {
+          "use strict";
+          if (!hex) hex = "#4f46e5";
+          hex = String(hex).trim().replace("#", "");
+          if (hex.length === 3) {
+            hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+          }
+          if (hex.length !== 6) {
+            return "#e0e7ff";
+          }
+          var r = parseInt(hex.substring(0, 2), 16);
+          var g = parseInt(hex.substring(2, 4), 16);
+          var b = parseInt(hex.substring(4, 6), 16);
+          if (isNaN(r) || isNaN(g) || isNaN(b)) {
+            return "#e0e7ff";
+          }
+          var f = typeof factor === "number" ? factor : 0.65;
+          var newR = Math.round(r + (255 - r) * f);
+          var newG = Math.round(g + (255 - g) * f);
+          var newB = Math.round(b + (255 - b) * f);
+
+          var toHex = function (c) {
+            var h = Math.min(255, Math.max(0, c)).toString(16);
+            return h.length === 1 ? "0" + h : h;
+          };
+          return "#" + toHex(newR) + toHex(newG) + toHex(newB);
+        },
+
+        // Update the live counter indicating how many songs are required vs provided
+        updateWordCount: function () {
+          "use strict";
+          var words = bingoGenerator.parseWordsList($("#words").val());
+          var width = parseInt($("#width").val(), 10) || 5;
+          var height = parseInt($("#height").val(), 10) || 5;
+          var isSpanish = $("#spanishBingo").is(":checked");
+          var needed = (isSpanish && width > 1) ? (width - 1) * height : width * height;
+
+          var $badge = $("#wordCountBadge");
+          if (words.length >= needed) {
+            $badge.removeClass("invalid").addClass("valid");
+            $badge.html(
+              "<span>✅ <strong>" +
+                words.length +
+                " canciones</strong> ingresadas</span><span>Se requieren " +
+                needed +
+                " por cartón (" +
+                (isSpanish && width > 1
+                  ? (width - 1) + " rellenas + 1 en blanco por fila"
+                  : width + " por fila") +
+                ")</span>"
+            );
+          } else {
+            $badge.removeClass("valid").addClass("invalid");
+            $badge.html(
+              "<span>⚠️ <strong>" +
+                words.length +
+                " canciones</strong> ingresadas</span><span>Faltan " +
+                (needed - words.length) +
+                " canciones (cada cartón requiere " +
+                needed +
+                ")</span>"
             );
           }
+        },
 
-          // Output
+        // Render a single bingo card
+        bingoCard: function (title, width, height, wordsList, isSpanishBingo, cardNumber) {
+          "use strict";
+          var i, j, output;
+
+          // Number of non-blank playable squares on this card
+          var neededPerCard =
+            isSpanishBingo && width > 1 ? (width - 1) * height : width * height;
+
+          // Pick random words for this card from available words without replacement
+          var pool = wordsList.slice();
+          var spaces = [];
+          for (i = 0; i < neededPerCard; i += 1) {
+            if (pool.length === 0) {
+              pool = wordsList.slice();
+            }
+            var randIndex = Math.floor(Math.random() * pool.length);
+            spaces.push(pool.splice(randIndex, 1)[0]);
+          }
+
           var color = $("#headerColor").val() || "#000000";
-          // Select values only, so they can't inject CSS
+          var blankColor = bingoGenerator.lightenColor(color, 0.65);
           var titleFont = $("#titleFont").val() || "Outfit";
           var bodyFont = $("#bodyFont").val() || "Outfit";
-          output =
-            "<div class=\"card-container\"><table style=\"font-family: '" +
-            bodyFont +
-            "', sans-serif;\"><thead><tr><th colspan=\"" +
+          var safeTitle = bingoGenerator.escapeHTML(title);
+
+          output = '<div class="card-container">';
+          output += '<div class="card-wrapper">';
+          output += '<table style="font-family: \'' + bodyFont + '\', sans-serif;">';
+          output +=
+            '<thead><tr><th colspan="' +
             width +
             '" style="background-color: ' +
             color +
             "; font-family: '" +
             titleFont +
-            "', sans-serif;\">" +
-            title +
-            "</th></tr></thead>";
+            '\', sans-serif;">';
+          output += '<div class="th-container">';
+          output += '<span class="th-title-text">' + safeTitle + "</span>";
+          if (cardNumber !== undefined) {
+            output += '<span class="th-card-badge">Cartón #' + cardNumber + "</span>";
+          }
+          output += "</div></th></tr></thead>";
           output += "<tbody>";
+
+          var prevBlankCol = -1;
           for (i = 0; i < height; i += 1) {
+            // Spanish Bingo: one random square in each row is going to be blank
+            var blankCol = -1;
+            if (isSpanishBingo && width > 1) {
+              blankCol = Math.floor(Math.random() * width);
+              // Avoid consecutive rows having the blank in the exact same column when width > 2
+              if (width > 2 && blankCol === prevBlankCol) {
+                blankCol = (blankCol + 1 + Math.floor(Math.random() * (width - 1))) % width;
+              }
+              prevBlankCol = blankCol;
+            }
+
             output += "<tr>";
             for (j = 0; j < width; j += 1) {
-              output += "<td>" + spaces.shift() + "</td>";
+              if (isSpanishBingo && j === blankCol) {
+                // Blank square for Spanish Bingo style: solid color a few shades lighter than header
+                output +=
+                  '<td class="blank-square" style="background-color: ' +
+                  blankColor +
+                  ';" title="Casilla en blanco">&nbsp;</td>';
+              } else {
+                var rawWord = spaces.shift() || "";
+                var cellContent = bingoGenerator.newlineToBR(
+                  bingoGenerator.escapeHTML(rawWord)
+                );
+                output +=
+                  '<td class="bingo-cell" tabindex="0">' + cellContent + "</td>";
+              }
             }
             output += "</tr>";
           }
-          output += "</tbody></table></div>";
+          output += "</tbody></table>";
+          if (bingoGenerator.bgImageData) {
+            var op = ($("#bgOpacity").val() || 15) / 100;
+            output +=
+              '<img class="card-watermark" src="' +
+              bingoGenerator.bgImageData +
+              '" alt="" style="opacity: ' +
+              op +
+              ';" />';
+          }
+          output += "</div></div>";
           $("#results").append(output);
         },
 
         // Generate Bingo Cards
         generate: function () {
           "use strict";
-          var spaces, i;
+          var width = parseInt($("#width").val(), 10) || 5;
+          var height = parseInt($("#height").val(), 10) || 5;
+          var numCards = parseInt($("#number").val(), 10) || 1;
+          var isSpanish = $("#spanishBingo").is(":checked");
+          var words = bingoGenerator.parseWordsList($("#words").val());
+          var neededPerCard = (isSpanish && width > 1) ? (width - 1) * height : width * height;
 
           // Check to make sure enough options are provided to fill the bingo card spaces
-          spaces = bingoGenerator.removeEmptyElements(
-            $("#words").val().split(","),
-          ).length;
-          if (spaces < $("#width").val() * $("#height").val()) {
+          if (words.length < neededPerCard) {
             alert(
-              "Faltan canciones: hay " +
-                spaces +
-                " y el cartón necesita " +
-                $("#width").val() * $("#height").val() +
-                ".",
+              "Faltan canciones: has ingresado " +
+                words.length +
+                " canciones y cada cartón necesita " +
+                neededPerCard +
+                (isSpanish && width > 1
+                  ? " (" + (width - 1) + " por fila + 1 casilla en blanco por fila)."
+                  : ".")
             );
             return false;
           }
@@ -303,27 +897,37 @@
           $("#results").html("");
 
           // Loop over number of cards requested
-          for (i = 0; i < document.getElementById("number").value; i += 1) {
-            // Create bingo card
+          var title = $("#title").val();
+          for (var i = 0; i < numCards; i += 1) {
             bingoGenerator.bingoCard(
-              $("#title").val(),
-              $("#width").val(),
-              $("#height").val(),
-              $("#words").val(),
+              title,
+              width,
+              height,
+              words,
+              isSpanish,
+              i + 1
             );
-            if (i < document.getElementById("number").value - 1) {
+            if (i < numCards - 1) {
               $("#results").append('<div class="break"></div>');
             }
           }
 
-          // Jump to results
-          location.href = "#results";
+          // Initialize dauber on generated cards
+          dauber.init();
+          $("#actionGroup").show();
+
+          // Scroll to results
+          var resultsElem = document.getElementById("results");
+          if (resultsElem) {
+            resultsElem.scrollIntoView({ behavior: "smooth" });
+          }
           return true;
         },
 
         // Replace + with spaces, <> with entities, and URL-decode &/,:;+=?%$@
         urlUnencode: function (str) {
           "use strict";
+          if (!str) return "";
           return decodeURI(str)
             .replace(/</g, "&lt;")
             .replace(/\+/g, " ")
@@ -342,33 +946,16 @@
             .replace(/%40/g, "@");
         },
 
-        escapeHTML: function (str) {
-          "use strict";
-          return str.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-        },
-
-        newlineToBR: function (str) {
-          "use strict";
-          return str.replace(/\n/g, "<br>");
-        },
-
         parseQS: function () {
           "use strict";
           var qsArray, json, i, kv, key, val;
-          // Remove leading question mark ("?") and split into array of key/value pairs
           qsArray = location.search.slice(1).split("&");
-          // Initialize object to store key/value pairs
           json = {};
-          // Loop through key/value pairs and separate into keys and values
           for (i = 0; i < qsArray.length; i += 1) {
+            if (!qsArray[i]) continue;
             kv = qsArray[i].split("=");
             key = kv[0];
-            if (kv.length === 1) {
-              val = key;
-            } else {
-              // A key may be present without a value, so set a placeholder value
-              val = kv[1];
-            }
+            val = kv.length === 1 ? key : kv[1];
             json[key] = val;
           }
           return json;
@@ -377,81 +964,93 @@
         checkQS: function () {
           "use strict";
           var qs = bingoGenerator.parseQS();
-          if (!(qs.title === undefined) || !(qs.words === undefined)) {
-            if (!(qs.title === undefined)) {
+          if (qs.title !== undefined || qs.words !== undefined) {
+            if (qs.title !== undefined) {
               $("#title").val(bingoGenerator.urlUnencode(qs.title));
             }
-            if (!(qs.words === undefined)) {
+            if (qs.words !== undefined) {
               $("#words").val(bingoGenerator.urlUnencode(qs.words));
             }
-            if (!(qs.headerColor === undefined)) {
+            if (qs.headerColor !== undefined) {
               $("#headerColor").val(bingoGenerator.urlUnencode(qs.headerColor));
             }
-            if (!(qs.titleFont === undefined)) {
+            if (qs.titleFont !== undefined) {
               $("#titleFont").val(bingoGenerator.urlUnencode(qs.titleFont));
             }
-            if (!(qs.bodyFont === undefined)) {
+            if (qs.bodyFont !== undefined) {
               $("#bodyFont").val(bingoGenerator.urlUnencode(qs.bodyFont));
             }
-            if (!(qs.width === undefined)) {
+            if (qs.width !== undefined) {
               $("#width").val(qs.width);
             }
-            if (!(qs.height === undefined)) {
+            if (qs.height !== undefined) {
               $("#height").val(qs.height);
             }
-            if (!(qs.number === undefined)) {
+            if (qs.number !== undefined) {
               $("#number").val(qs.number);
             }
+            if (qs.spanishBingo !== undefined) {
+              $("#spanishBingo").prop(
+                "checked",
+                qs.spanishBingo === "true" ||
+                  qs.spanishBingo === "1" ||
+                  qs.spanishBingo === "on"
+              );
+            }
+            bingoGenerator.updateWordCount();
+            bingoGenerator.generate();
+            return true;
           }
-          if (
-            !(qs.title === undefined) &&
-            !(qs.words === undefined) &&
-            bingoGenerator.generate()
-          ) {
-            dauber.init();
-            $("#downloadPdfBtn")
-              .show()
-              .click(function (e) {
-                e.preventDefault();
-                bingoGenerator.downloadPdf(this);
-              });
-          }
+          return false;
         },
 
-        // One card per A4 page. Each card is rendered on its own canvas, so large
-        // batches don't exceed the browser's max canvas size.
+        // Download multi-card PDF
         downloadPdf: function (button) {
           "use strict";
           var cards = document.querySelectorAll("#results .card-container");
+          if (!cards || cards.length === 0) {
+            alert("No hay cartones generados para descargar.");
+            return;
+          }
           var opt = {
             margin: 10,
-            filename: "bingo.pdf",
+            filename: "cartones_bingo_espanol.pdf",
             image: { type: "jpeg", quality: 0.98 },
-            html2canvas: { scale: 2, scrollX: 0, scrollY: 0 },
+            html2canvas: { scale: 2, scrollX: 0, scrollY: 0, useCORS: true },
             jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
           };
           button.disabled = true;
           button.textContent = "Generando PDF...";
-          // Wait for the web fonts, or html2canvas renders the fallback font
-          document.fonts.ready.then(function () {
-            var worker = html2pdf().set(opt).from(cards[0]).toPdf();
-            var i;
-            for (i = 1; i < cards.length; i += 1) {
-              worker = worker
-                .get("pdf")
-                .then(function (pdf) {
-                  pdf.addPage();
-                })
-                .from(cards[i])
-                .toContainer()
-                .toCanvas()
-                .toPdf();
-            }
-            return worker.save();
-          }).then(function () {
-            button.disabled = false;
-            button.textContent = "Descargar PDF";
-          });
+
+          document.fonts.ready
+            .then(function () {
+              var worker = html2pdf().set(opt).from(cards[0]).toPdf();
+              var i;
+              for (i = 1; i < cards.length; i += 1) {
+                worker = worker
+                  .get("pdf")
+                  .then(function (pdf) {
+                    pdf.addPage();
+                  })
+                  .from(cards[i])
+                  .toContainer()
+                  .toCanvas()
+                  .toPdf();
+              }
+              return worker.save();
+            })
+            .then(function () {
+              button.disabled = false;
+              button.textContent = "📄 Descargar PDF";
+            })
+            .catch(function (err) {
+              console.error("Error al generar PDF:", err);
+              button.disabled = false;
+              button.textContent = "📄 Descargar PDF";
+              alert(
+                "Hubo un error al generar el PDF. Por favor, inténtalo de nuevo."
+              );
+            });
         },
 
         fonts: [
@@ -472,21 +1071,27 @@
           "Righteous",
         ],
 
-        icons: "🎵 🎶 🎤 🎧 🎸 🎹 🥁 🎷 🎺 🎻 💿 📻 ⭐ ✨ 🎉 🎈 🏆 ❤️ 🎄 🎃".split(" "),
+        icons: "🎵 🎶 🎤 🎧 🎸 🎹 🥁 🎷 🎺 🎻 💿 📻 ⭐ ✨ 🎉 🎈 🏆 ❤️ 🎄 🎃".split(
+          " "
+        ),
 
         initControls: function () {
           "use strict";
           bingoGenerator.fonts.forEach(function (font) {
             $("#titleFont, #bodyFont").append(
-              $("<option>").val(font).text(font).css("font-family", font),
+              $("<option>").val(font).text(font).css("font-family", font)
             );
           });
+
           bingoGenerator.icons.forEach(function (icon) {
             $("#iconBank").append(
-              $('<button type="button">').text(icon).attr("title", "Añadir " + icon),
+              $('<button type="button">')
+                .text(icon)
+                .attr("title", "Añadir " + icon)
             );
           });
-          // Insert the icon at the cursor position of the title field
+
+          // Insert the icon at cursor in the title field
           $("#iconBank").on("click", "button", function () {
             var input = document.getElementById("title");
             var start = input.selectionStart;
@@ -497,68 +1102,254 @@
             input.focus();
             input.setSelectionRange(start + icon.length, start + icon.length);
           });
+
+          // Load sample songs button
+          $("#loadSampleSongsBtn").on("click", function (e) {
+            e.preventDefault();
+            $("#words").val(bingoGenerator.sampleSongs.join(";; "));
+            bingoGenerator.updateWordCount();
+          });
+
+          // Realtime word count listener
+          $("#words, #width, #height, #spanishBingo").on(
+            "input change",
+            function () {
+              bingoGenerator.updateWordCount();
+            }
+          );
+
+          // Clear daub marks
+          $("#clearDaubsBtn").on("click", function () {
+            dauber.clearAll();
+          });
+
+          // Download PDF button
+          $("#downloadPdfBtn").on("click", function (e) {
+            e.preventDefault();
+            bingoGenerator.downloadPdf(this);
+          });
+
+          // Background image uploader (custom PNG)
+          $("#bgImageFile").on("change", function (e) {
+            var file = e.target.files && e.target.files[0];
+            if (!file) return;
+            var reader = new FileReader();
+            reader.onload = function (evt) {
+              bingoGenerator.bgImageData = evt.target.result;
+              bingoGenerator.bgImageName = file.name;
+              $("#bgNameText").text(file.name);
+              $("#bgPreviewBadge").show();
+              $(".card-watermark").attr("src", bingoGenerator.bgImageData);
+              if ($("#results .card-container").length > 0) {
+                bingoGenerator.generate();
+              }
+            };
+            reader.readAsDataURL(file);
+          });
+
+          // Preset spiderweb button
+          $("#useSpiderwebBtn").on("click", function () {
+            bingoGenerator.bgImageData = "/spiderweb.svg";
+            bingoGenerator.bgImageName = "Telaraña (Halloween)";
+            $("#bgNameText").text(bingoGenerator.bgImageName);
+            $("#bgPreviewBadge").show();
+            if ($("#results .card-container").length > 0) {
+              bingoGenerator.generate();
+            }
+          });
+
+          // Clear background button
+          $("#clearBgBtn").on("click", function () {
+            bingoGenerator.bgImageData = null;
+            bingoGenerator.bgImageName = "Ninguno";
+            $("#bgNameText").text("Ninguno");
+            $("#bgPreviewBadge").hide();
+            $("#bgImageFile").val("");
+            if ($("#results .card-container").length > 0) {
+              bingoGenerator.generate();
+            }
+          });
+
+          // Background opacity slider
+          $("#bgOpacity").on("input change", function () {
+            var val = $(this).val();
+            $("#bgOpacityVal").text(val + "%");
+            $(".card-watermark").css("opacity", val / 100);
+          });
+
+          // Form submission via JavaScript for seamless card generation without reload
+          $("form").on("submit", function (e) {
+            e.preventDefault();
+            bingoGenerator.generate();
+          });
         },
       };
 
       $(document).ready(function () {
         bingoGenerator.initControls();
-        bingoGenerator.checkQS();
+        // Populate default songs if words is default placeholder
+        if ($("#words").val() === "..." || !$("#words").val().trim()) {
+          $("#words").val(bingoGenerator.sampleSongs.join(";; "));
+        }
+        bingoGenerator.updateWordCount();
+        if (!bingoGenerator.checkQS()) {
+          bingoGenerator.generate();
+        }
       });
     </script>
   </head>
   <body>
-    <h1>Crea tu propio Bingo</h1>
+    <div class="app-header">
+      <h1>Crea tu propio Bingo</h1>
+    </div>
+
     <form action="#results" method="get">
       <fieldset>
-        <legend>Detalles del bingo</legend>
-        <label
-          >Título:<input
-            type="text"
-            name="title"
-            id="title"
-            value="Título bingo"
-        /></label>
+        <legend>🎨 Detalles del bingo</legend>
+        <label for="title">Título del cartón:</label>
+        <input
+          type="text"
+          name="title"
+          id="title"
+          value="🎃 Bingo Musical  🎃"
+        />
         <div class="icon-bank" id="iconBank"></div>
+
         <div class="font-row">
-          <label
-            >Fuente del título:<select name="titleFont" id="titleFont"></select
-          ></label>
-          <label
-            >Fuente de las casillas:<select name="bodyFont" id="bodyFont"></select
-          ></label>
+          <label for="titleFont"
+            >Fuente del título:
+            <select name="titleFont" id="titleFont"></select>
+          </label>
+          <label for="bodyFont"
+            >Fuente de las casillas:
+            <select name="bodyFont" id="bodyFont"></select>
+          </label>
         </div>
-        <label
-          >Color de cabecera:<input
-            type="color"
-            name="headerColor"
-            id="headerColor"
-            value="#000000"
-        /></label>
-        <label>Listado de canciones (separadas por comas):</label
-        ><textarea cols="60" rows="8" name="words" id="words">...</textarea>
-        <label
-          >Número de cuadrados a lo ancho:
-          <input type="number" min="1" max="10" name="width" id="width" value="5"
-        /></label>
-        <label
-          >Número de cuadrados a lo alto:
-          <input type="number" min="1" max="10" name="height" id="height" value="5"
-        /></label>
-        <label
-          >Número de cartones a imprimir:
-          <input type="number" min="1" max="200" name="number" id="number" value="10"
-        /></label>
+
+        <label for="headerColor">Color de cabecera:</label>
+        <input
+          type="color"
+          name="headerColor"
+          id="headerColor"
+          value="#000000"
+        />
+
+        <div class="spanish-banner">
+          <label class="spanish-checkbox-row" for="spanishBingo">
+            <input
+              type="checkbox"
+              name="spanishBingo"
+              id="spanishBingo"
+              checked
+            />
+            <div>
+              <span class="spanish-text-title"
+                >Modo bingo español (1 casilla en blanco por fila)</span
+              >
+              <span class="spanish-text-desc"
+                >Al igual que en los cartones tradicionales españoles, cada fila tendrá exactamente una casilla en blanco aleatoria.</span
+              >
+            </div>
+          </label>
+        </div>
+
+        <div class="bg-section">
+          <label class="bg-section-title">🕸️ Imagen de fondo del cartón (Marca de agua):</label>
+          <div class="bg-controls-row">
+            <label for="bgImageFile" class="bg-upload-btn">
+              📁 Subir archivo PNG
+            </label>
+            <input type="file" id="bgImageFile" accept="image/png, image/*" style="display: none;" />
+            <button type="button" class="preset-small-btn" id="useSpiderwebBtn">
+              🕸️ Telaraña (Halloween)
+            </button>
+            <button type="button" class="preset-small-btn btn-remove-bg" id="clearBgBtn">
+              ✕ Sin fondo
+            </button>
+          </div>
+          <div class="bg-opacity-row">
+            <label for="bgOpacity">Opacidad del fondo: <strong id="bgOpacityVal">15%</strong></label>
+            <input type="range" id="bgOpacity" min="5" max="50" value="15" step="1" />
+          </div>
+          <div id="bgPreviewBadge" class="bg-preview-badge">
+            <span>Fondo activo: <strong id="bgNameText">Telaraña (Halloween)</strong></span>
+          </div>
+        </div>
+
+        <div class="textarea-header">
+          <label for="words" style="margin: 0"
+            >Listado de canciones o elementos (separados por <code>;;</code>):</label
+          >
+          <button
+            type="button"
+            id="loadSampleSongsBtn"
+            class="sample-link"
+            title="Cargar lista de canciones de muestra"
+          >
+            ↻ Cargar canciones de ejemplo
+          </button>
+        </div>
+        <textarea
+          cols="60"
+          rows="6"
+          name="words"
+          id="words"
+          placeholder="Canción 1;; Canción 2;; Canción 3..."
+        ></textarea>
+
+        <div id="wordCountBadge" class="word-count-badge"></div>
+
+
+        <div class="dimension-row">
+          <label for="width"
+            >Número de columnas (ancho):
+            <input
+              type="number"
+              min="2"
+              max="10"
+              name="width"
+              id="width"
+              value="5"
+            />
+          </label>
+          <label for="height"
+            >Número de filas (alto):
+            <input
+              type="number"
+              min="1"
+              max="10"
+              name="height"
+              id="height"
+              value="5"
+            />
+          </label>
+        </div>
+
+        <label for="number"
+          >Número de cartones a generar:
+          <input
+            type="number"
+            min="1"
+            max="100"
+            name="number"
+            id="number"
+            value="10"
+          />
+        </label>
       </fieldset>
-      <label><input type="submit" value="Generar bingo" /></label>
-      <label
-        ><button
-          type="button"
-          id="downloadPdfBtn"
-          style="display: none; margin-top: 10px"
-        >
-          Descargar PDF
-        </button></label
-      >
+
+      <button type="submit" class="btn-primary" id="generateBtn">
+        🎲 Generar cartones de bingo
+      </button>
+
+      <div class="btn-group" id="actionGroup" style="display: none">
+        <button type="button" class="btn-secondary" id="downloadPdfBtn">
+          📄 Descargar PDF
+        </button>
+        <button type="button" class="btn-secondary btn-outline" id="clearDaubsBtn">
+          🧹 Limpiar tachones
+        </button>
+      </div>
     </form>
 
     <div id="results"></div>

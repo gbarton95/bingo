@@ -13,6 +13,11 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+// Alias spiderweb.png to the vector spiderweb asset
+app.get('/spiderweb.png', (req, res) => {
+  res.type('image/svg+xml').sendFile(path.join(__dirname, 'spiderweb.svg'));
+});
+
 app.listen(PORT, HOST, () => {
   console.log(`Server running at http://${HOST}:${PORT}/`);
 });

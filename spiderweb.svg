@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 660" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Main Outer Anchor Frame (Hand-drawn scalloped border) -->
+  <g stroke-width="7.5">
+    <!-- Top-left tip to bottom-left wing corner -->
+    <path d="M 55 20 Q 150 180 245 360" />
+    
+    <!-- Bottom-left wing corner to bottom sharp needle drop -->
+    <path d="M 245 360 Q 440 435 660 595" />
+    
+    <!-- Bottom sharp needle drop to bottom-right corner -->
+    <path d="M 660 595 Q 815 560 990 615" />
+    
+    <!-- Bottom-right corner to mid-right spoke -->
+    <path d="M 990 615 Q 880 440 990 275" />
+    
+    <!-- Mid-right spoke to upper-right corner -->
+    <path d="M 990 275 Q 900 175 990 75" />
+    
+    <!-- Upper-right corner to top-right spoke -->
+    <path d="M 990 75 Q 860 70 740 15" />
+    
+    <!-- Top-right spoke to top spoke -->
+    <path d="M 740 15 Q 660 120 580 5" />
+    
+    <!-- Top spoke to top-left anchor branch -->
+    <path d="M 580 5 Q 450 70 318 10" />
+    
+    <!-- Top-left anchor branch to top-left tip -->
+    <path d="M 318 10 Q 185 80 55 20" />
+  </g>
+
+  <!-- Main Radial Spokes radiating from hub (660, 160) -->
+  <g stroke-width="6.8">
+    <!-- Spoke to bottom sharp needle drop -->
+    <path d="M 660 160 Q 662 380 660 595" />
+
+    <!-- Spoke to bottom-left wing corner -->
+    <path d="M 660 160 Q 450 260 245 360" />
+
+    <!-- Spoke to top-left tip via anchor node -->
+    <path d="M 660 160 Q 470 148 320 100" />
+    <path d="M 320 100 Q 180 60 55 20" />
+    <!-- Vertical top anchor -->
+    <path d="M 320 100 Q 320 50 318 10" stroke-width="7" />
+
+    <!-- Spoke to top spoke -->
+    <path d="M 660 160 Q 620 80 580 5" />
+
+    <!-- Spoke to top-right spoke -->
+    <path d="M 660 160 Q 700 85 740 15" />
+
+    <!-- Spoke to upper-right corner -->
+    <path d="M 660 160 Q 825 115 990 75" />
+
+    <!-- Spoke to mid-right spoke -->
+    <path d="M 660 160 Q 825 218 990 275" />
+
+    <!-- Spoke to bottom-right corner -->
+    <path d="M 660 160 Q 825 385 990 615" />
+  </g>
+
+  <!-- Concentric Scalloped Web Rings (Curved arches between spokes) -->
+  
+  <!-- Tier 1: Inner Hub Ring -->
+  <g stroke-width="5.5">
+    <path d="M 608 148 Q 588 172 580 195" />
+    <path d="M 580 195 Q 612 215 646 222" />
+    <path d="M 646 222 Q 692 225 735 208" />
+    <path d="M 735 208 Q 770 210 806 195" />
+    <path d="M 806 195 Q 815 168 810 142" />
+    <path d="M 810 142 Q 780 128 748 120" />
+    <path d="M 748 120 Q 705 110 665 108" />
+    <path d="M 665 108 Q 635 125 608 148" />
+  </g>
+
+  <!-- Tier 2: Mid-Inner Ring -->
+  <g stroke-width="6.0">
+    <path d="M 502 140 Q 482 195 490 238" />
+    <path d="M 490 238 Q 555 285 625 298" />
+    <path d="M 625 298 Q 708 310 782 272" />
+    <path d="M 782 272 Q 835 268 876 240" />
+    <path d="M 876 240 Q 888 198 874 158" />
+    <path d="M 874 158 Q 830 132 782 114" />
+    <path d="M 782 114 Q 712 100 638 98" />
+    <path d="M 638 98 Q 568 115 502 140" />
+  </g>
+
+  <!-- Tier 3: Mid-Outer Ring -->
+  <g stroke-width="6.2">
+    <path d="M 388 128 Q 372 230 394 305" />
+    <path d="M 394 305 Q 495 365 605 385" />
+    <path d="M 605 385 Q 730 420 846 340" />
+    <path d="M 846 340 Q 902 330 945 285" />
+    <path d="M 945 285 Q 920 185 990 75" />
+    <path d="M 874 158 Q 808 122 740 15" />
+    <path d="M 638 98 Q 610 50 580 5" />
+    <path d="M 502 140 Q 405 130 320 100" />
+  </g>
+</svg>

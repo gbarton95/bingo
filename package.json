@@ -5,6 +5,7 @@
   "version": "0.0.2",
   "scripts": {
     "dev": "node server.js",
+    "build": "echo 'Build complete'",
     "start": "node server.js"
   },
   "dependencies": {
